@@ -10,34 +10,38 @@ class SectionSelectButton extends React.Component {
     this.state = {
       currentValue: props.item.value
     }
-    this.onPressOn = this.onPressOn.bind(this)
-    this.onPressOff = this.onPressOff.bind(this)
+    this.onPress = this.onPress.bind(this)
+    this.generateButtons = this.generateButtons.bind(this)
+    this.generateButtonColor = this.generateButtonColor.bind(this)
   }
-  onPressOn () {
-    let body = { name: this.props.item.name, value: 1 };
+  onPress (index) {
+    let body = { name: this.props.item.name, value: index };
     Axios.post("http://" + global.ip + "/formGeneralValue?name=" + body.name + "&value=" + body.value, body)
       .then((response) => {
         console.log("On")
-        this.setState({currentValue: 1})
+        this.setState({currentValue: index})
         console.log(response)
       })
       .catch((err) => {
         console.log("Boolean post failed: " + err)
-        console.log
       })
   }
-  onPressOff () {
-    let body = { name: this.props.item.name, value: 0 };
-    Axios.post("http://" + global.ip + "/formGeneralValue?name=" + body.name + "&value=" + body.value, body)
-      .then((response) => {
-        this.setState({currentValue: 0})
-        console.log("Off")
-        console.log(response)
-      })
-      .catch((err) => {
-        console.log("Boolean post failed: " + err)
-        console.log
-      })
+  generateButtonColor (index) {
+    console.log(index + ", " + this.state.currentValue)
+    if (index === this.state.currentValue) return global.colors.primary
+    else return global.colors.secondary
+  }
+  generateButtons() {
+    return this.props.item.options.map(
+      (type, index) => {
+        return <Button key={index}
+          onPress={() => {this.onPress(index)}}
+          title={type}
+          color={this.generateButtonColor(index)}
+          accessibilityLabel={"Turn off"}
+        />
+      }
+    )
   }
   
   render () {
@@ -48,27 +52,15 @@ class SectionSelectButton extends React.Component {
     const { selectedIndex } = this.state
     return (
       <View style={styles.buttonContainer}>
-        <Button
-          onPress={this.onPressOn}
-          title="On"
-          color={color[0]}
-          accessibilityLabel={"Turn " + this.props.name  + " on"}
-        />
-        <Button
-          onPress={this.onPressOff}
-          title="Off"
-          color={color[1]}
-          accessibilityLabel={"Turn " + this.props.name  + " off"}
-        />
+        {this.generateButtons()}
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column'
+  buttonContainer: {
+    flexDirection: 'row'
   }
 });
 SectionSelectButton.propTypes = {

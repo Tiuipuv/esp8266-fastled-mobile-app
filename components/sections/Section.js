@@ -6,6 +6,7 @@ import SectionBoolean from './SectionBoolean'
 import SectionNumber from './SectionNumber'
 import SectionDiv from './SectionDiv'
 import SectionSelectButton from './SectionSelectButton'
+import SectionSelect from './SectionSelect'
 class Section extends React.Component {
   constructor(props){
     super(props);
@@ -23,7 +24,8 @@ class Section extends React.Component {
   componentType(item) {
     if (item.type == "Number") return (<SectionNumber item={item}/>)
     else if (item.type == "Boolean") return (<SectionBoolean item={item}/>)
-    //else if (item.type == "SelectHeader") return (<SectionSelectButton item={item}/>)
+    else if (item.type == "SelectHeader") return (<SectionSelectButton item={item}/>)
+    else if (item.type == "Select") return (<SectionSelect item={item}/>)
     return (<Text>Missing Component Type!! Yes, this is an error</Text>)
   }
 

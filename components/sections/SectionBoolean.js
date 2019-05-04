@@ -23,7 +23,6 @@ class SectionBoolean extends React.Component {
       })
       .catch((err) => {
         console.log("Boolean post failed: " + err)
-        console.log
       })
   }
   onPressOff () {
@@ -36,14 +35,13 @@ class SectionBoolean extends React.Component {
       })
       .catch((err) => {
         console.log("Boolean post failed: " + err)
-        console.log
       })
   }
   
   render () {
-    let color = ['#FFFFFF', '#007BFF']
+    let color = [global.colors.secondary, global.colors.primary]
     if (this.state.currentValue) {
-      color = ['#007BFF', '#FFFFFF']
+      color = [global.colors.primary, global.colors.secondary]
     }
     const { selectedIndex } = this.state
     return (

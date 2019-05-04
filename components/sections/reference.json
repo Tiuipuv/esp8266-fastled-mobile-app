@@ -1,0 +1,45 @@
+[{
+  "name": "zone",
+  "label": "Zone",
+  "type": "SelectHeader",
+  "value": 0,
+  "options": ["Left", "Middle", "Right"]
+}, {
+  "name": "power",
+  "label": "Power",
+  "type": "Boolean",
+  "value": 1
+}, {
+  "name": "brightness",
+  "label": "Brightness",
+  "type": "Number",
+  "value": 178,
+  "min": 1,
+  "max": 255
+}, {
+  "name": "pattern",
+  "label": "Pattern",
+  "type": "Select",
+  "value": 1,
+  "options": ["Pride", "Color Waves", "Twinkles", "Rainbow", "Rainbow With Glitter", "Solid Rainbow", "Confetti", "Sinelon", "Beat", "Juggle", "Fire", "Water", "Solid Color", "(Audio) Solid Color", "(Audio) Rainbow Edge", "(Audio) Fade Edge", "(Audio) Red Edge", "(Audio) White Edge", "(Audio) Rainbow Mid", "(Audio) Fade Mid", "(Audio) Red Mid", "(Audio) White Mid", "(Audio) Rainbow Speed", "(Audio) Rainbow Speed 2", "(Audio) Rainbow Speed Long", "(Audio) Rainbow Speed Long 2", "(Audio) Confetti", "(Audio) Confetti Dense"]
+}, {
+  "name": "autoplaySection",
+  "label": "Autoplay",
+  "type": "Section"
+}, {
+  "name": "autoplay",
+  "label": "Autoplay",
+  "type": "Boolean",
+  "value": 0
+}, {
+  "name": "autoplayDuration",
+  "label": "Autoplay Duration",
+  "type": "Number",
+  "value": 10,
+  "min": 1,
+  "max": 255
+}, {
+  "name": "parametersSection",
+  "label": "Parameters",
+  "type": "Section"
+}]
