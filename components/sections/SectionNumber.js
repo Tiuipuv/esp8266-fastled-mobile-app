@@ -20,15 +20,12 @@ class SectionNumber extends React.Component {
   changeSend(val) {
     newVal = parseInt(val)
     let body = { name: this.props.item.name, value: newVal };
-    Axios.post("http://" + global.ip + "/formGeneralValue?name=" + body.name + "&value=" + body.value, body)
+    Axios.post("http://" + global.ip + "/form" + this.props.type + "Value?name=" + body.name + "&value=" + body.value, body)
       .then((response) => {
-        console.log(val)
         this.setState({currentValue: newVal})
-        console.log(response)
       })
       .catch((err) => {
         console.log("Number post failed: " + err)
-        console.log
       })
   }
 
@@ -63,6 +60,7 @@ const styles = StyleSheet.create({
   },
 });
 SectionNumber.propTypes = {
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired
 }
 export default SectionNumber

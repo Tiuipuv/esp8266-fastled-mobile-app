@@ -16,18 +16,15 @@ class SectionSelectButton extends React.Component {
   }
   onPress (index) {
     let body = { name: this.props.item.name, value: index };
-    Axios.post("http://" + global.ip + "/formGeneralValue?name=" + body.name + "&value=" + body.value, body)
+    Axios.post("http://" + global.ip + "/form" + this.props.type + "Value?name=" + body.name + "&value=" + body.value, body)
       .then((response) => {
-        console.log("On")
         this.setState({currentValue: index})
-        console.log(response)
       })
       .catch((err) => {
         console.log("Boolean post failed: " + err)
       })
   }
   generateButtonColor (index) {
-    console.log(index + ", " + this.state.currentValue)
     if (index === this.state.currentValue) return global.colors.primary
     else return global.colors.secondary
   }
@@ -64,6 +61,7 @@ const styles = StyleSheet.create({
   }
 });
 SectionSelectButton.propTypes = {
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired
 }
 export default SectionSelectButton

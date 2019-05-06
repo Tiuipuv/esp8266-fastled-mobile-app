@@ -15,16 +15,13 @@ class SectionSelect extends React.Component {
   
   changeValue (index) {
     newIndex = parseInt(index)
-    let body = { name: this.props.item.name, value: newIndex };
-    Axios.post("http://" + global.ip + "/formGeneralValue?name=" + body.name + "&value=" + body.value, body)
+    let body = { name: this.props.item.name, value: newIndex }
+    Axios.post("http://" + global.ip + "/form" + this.props.type + "Value?name=" + body.name + "&value=" + body.value, body)
       .then((response) => {
-        console.log(newIndex)
         this.setState({currentValue: newIndex})
-        console.log(response)
       })
       .catch((err) => {
         console.log("Select post failed: " + err)
-        console.log
       })
   }
 
@@ -44,7 +41,7 @@ class SectionSelect extends React.Component {
     const { selectedIndex } = this.state
     return (
       <Picker style={styles.container}
-        selectedValue={this.state.language}
+        selectedValue={this.state.currentValue}
         style={{width: 200}}
         onValueChange={(itemValue) => {
           this.changeValue(itemValue)
@@ -56,7 +53,8 @@ class SectionSelect extends React.Component {
 }
 
 SectionSelect.propTypes = {
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired
 }
 
 const styles = StyleSheet.create({

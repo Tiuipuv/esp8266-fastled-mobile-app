@@ -15,11 +15,9 @@ class SectionBoolean extends React.Component {
   }
   onPressOn () {
     let body = { name: this.props.item.name, value: 1 };
-    Axios.post("http://" + global.ip + "/formGeneralValue?name=" + body.name + "&value=" + body.value, body)
+    Axios.post("http://" + global.ip + "/form" + this.props.type + "Value?name=" + body.name + "&value=" + body.value, body)
       .then((response) => {
-        console.log("On")
         this.setState({currentValue: 1})
-        console.log(response)
       })
       .catch((err) => {
         console.log("Boolean post failed: " + err)
@@ -27,11 +25,9 @@ class SectionBoolean extends React.Component {
   }
   onPressOff () {
     let body = { name: this.props.item.name, value: 0 };
-    Axios.post("http://" + global.ip + "/formGeneralValue?name=" + body.name + "&value=" + body.value, body)
+    Axios.post("http://" + global.ip + "/form" + this.props.type + "Value?name=" + body.name + "&value=" + body.value, body)
       .then((response) => {
         this.setState({currentValue: 0})
-        console.log("Off")
-        console.log(response)
       })
       .catch((err) => {
         console.log("Boolean post failed: " + err)
@@ -64,7 +60,8 @@ class SectionBoolean extends React.Component {
 }
 
 SectionBoolean.propTypes = {
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired
 }
 
 const styles = StyleSheet.create({

@@ -1,4 +1,4 @@
-
+import React from 'react'
 
 class RoomSelection extends React.Component {
   constructor(props) {

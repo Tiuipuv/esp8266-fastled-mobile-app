@@ -1,4 +1,6 @@
 import { Header } from 'react-native-elements'
+import React from 'react'
+import {View} from 'react-native'
 
 class PageHeader extends React.Component {
   constructor(props) {

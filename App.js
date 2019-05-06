@@ -9,7 +9,6 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import Body from './components/Body'
-import MyListItem from './components/MyListItem.js'
 import PageHeader from './components/PageHeader.js'
 
 const instructions = Platform.select({

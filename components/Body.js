@@ -9,17 +9,63 @@ class Body extends React.Component {
   constructor(props){
     super(props);
     this.state ={
-      isLoading: true
+      dataGeneral: [],
+      isLoadingGeneral: true,
+      isLoadingParameters: true
     }
   }
 
   componentDidMount(){
-    console.log(`mounted: http://${this.props.ip}/all`)
+    console.log(`body mounted: using http://${this.props.ip}/`)
     Axios.get(`http://${this.props.ip}/all`)
       .then((response) => {
+        let modifiedData = [];
+        response.data.forEach(element => {
+          element.section = "General"
+          modifiedData.push(element)
+        });
         this.setState({
-          dataSource: response.data,
-          isLoading: false
+          dataGeneral: modifiedData,
+          isLoadingGeneral: false
+        })
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err)
+      })
+    Axios.get(`http://${this.props.ip}/parameters`)
+      .then((response) => {
+        let modifiedData = [];
+        response.data.forEach(element => {
+          element.section = "Parameters"
+          modifiedData.push(element)
+        });
+        this.setState({
+          dataParameters: modifiedData,
+          isLoadingParameters: false
+        })
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err)
+      })
+  }
+
+  refreshParameters () {
+    this.setState({
+      dataParameters: [],
+      isLoadingParameters: true
+    })
+    Axios.get(`http://${this.props.ip}/parameters`)
+      .then((response) => {
+        let modifiedData = [];
+        response.data.forEach(element => {
+          element.section = "Parameters"
+          modifiedData.push(element)
+        });
+        this.setState({
+          dataParameters: modifiedData,
+          isLoadingParameters: false
         })
       })
       .catch((err) => {
@@ -29,25 +75,48 @@ class Body extends React.Component {
   }
 
   render () {
-    if(this.state.isLoading){
+    if(this.state.isLoadingGeneral) {
+      //general is not loaded, who cares about params...
       return(
         <View style={{flex: 1, padding: 20}}>
           <ActivityIndicator/>
         </View>
       )
     }
-    else {
-      return(
+    else if (!this.state.isLoadingGeneral && this.state.isLoadingParameters) {
+      // general is loaded, parameters isnt
+      return (
+        <View style={{flex: 1}}>
         <FlatList
-          data={this.state.dataSource}
+          data={this.state.dataGeneral}
           renderItem={({item}) => (
             <View>
               <View style={styles.lineStyle} />
-              <Section item={item} />
+              <Section item={item} type={item.section}/>
             </View>
           )}
           keyExtractor={item => item.name}
         />
+        <ActivityIndicator/>
+        </View>
+      )
+    }
+    else {
+      // both datasets are 'supposedly' loaded
+      console.log(this.state.dataGeneral.concat(this.state.dataParameters))
+      return (
+        <View style={{flex: 1}}>
+        <FlatList
+          data={this.state.dataGeneral.concat(this.state.dataParameters)}
+          renderItem={({item}) => (
+            <View>
+              <View style={styles.lineStyle} />
+              <Section item={item} type={item.section}/>
+            </View>
+          )}
+          keyExtractor={item => item.name}
+        />
+        </View>
       );
     }
   }
