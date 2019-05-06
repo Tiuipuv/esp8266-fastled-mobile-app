@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View, StatusBar} from 'react-native';
 import Body from './components/Body'
 import PageHeader from './components/PageHeader.js'
 
@@ -22,10 +22,8 @@ export default class App extends Component{
   render() {
     return (
       <View style={{flex: 1}}>
+        <StatusBar backgroundColor={global.colors.secondary} barStyle="light-content" />
         <PageHeader />
-        <Text style={styles.welcome}>Welcome to React Native!!!!!!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
         <Body style={{flex: 1}} ip={global.ip}/>
       </View>
     );

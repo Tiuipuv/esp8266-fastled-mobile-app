@@ -3,19 +3,19 @@ import { FlatList, ScrollView, View, ActivityIndicator, StyleSheet, Text} from '
 import PropTypes from 'prop-types'
 import Axios from 'axios'
 import Section from './sections/Section'
-//?import * from './sections'
 
 class Body extends React.Component {
   constructor(props){
     super(props);
-    this.state ={
+    this.state = {
       dataGeneral: [],
       isLoadingGeneral: true,
       isLoadingParameters: true
     }
+    this.refreshParameters = this.refreshParameters.bind(this)
   }
 
-  componentDidMount(){
+  componentDidMount () {
     console.log(`body mounted: using http://${this.props.ip}/`)
     Axios.get(`http://${this.props.ip}/all`)
       .then((response) => {
@@ -33,22 +33,7 @@ class Body extends React.Component {
         // eslint-disable-next-line no-console
         console.log(err)
       })
-    Axios.get(`http://${this.props.ip}/parameters`)
-      .then((response) => {
-        let modifiedData = [];
-        response.data.forEach(element => {
-          element.section = "Parameters"
-          modifiedData.push(element)
-        });
-        this.setState({
-          dataParameters: modifiedData,
-          isLoadingParameters: false
-        })
-      })
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.log(err)
-      })
+    this.refreshParameters()
   }
 
   refreshParameters () {
@@ -111,7 +96,7 @@ class Body extends React.Component {
           renderItem={({item}) => (
             <View>
               <View style={styles.lineStyle} />
-              <Section item={item} type={item.section}/>
+              <Section item={item} type={item.section} parametersCallback={this.refreshParameters}/>
             </View>
           )}
           keyExtractor={item => item.name}

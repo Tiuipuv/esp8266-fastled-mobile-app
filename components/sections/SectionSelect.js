@@ -16,6 +16,13 @@ class SectionSelect extends React.Component {
   changeValue (index) {
     newIndex = parseInt(index)
     let body = { name: this.props.item.name, value: newIndex }
+    if (typeof this.props.parametersCallback === "function") {
+      console.log(this.props.item.name)
+      if (this.props.item.name === "pattern") {
+        this.props.parametersCallback()
+      }
+      
+    }
     Axios.post("http://" + global.ip + "/form" + this.props.type + "Value?name=" + body.name + "&value=" + body.value, body)
       .then((response) => {
         this.setState({currentValue: newIndex})
@@ -54,7 +61,8 @@ class SectionSelect extends React.Component {
 
 SectionSelect.propTypes = {
   item: PropTypes.object.isRequired,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
+  parametersCallback: PropTypes.func
 }
 
 const styles = StyleSheet.create({

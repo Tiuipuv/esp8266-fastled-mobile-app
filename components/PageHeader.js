@@ -1,6 +1,6 @@
 import { Header } from 'react-native-elements'
 import React from 'react'
-import {View} from 'react-native'
+import { View, Image, Platform } from 'react-native'
 
 class PageHeader extends React.Component {
   constructor(props) {
@@ -11,8 +11,16 @@ class PageHeader extends React.Component {
     // Display the page header
 
     return (
-    <View style={{flex: 1}}>
-      <Header centerComponent={{text: 'The Lighthouse'}} /> 
+    <View>
+      <Header backgroundColor={global.colors.secondary}
+        containerStyle={{marginTop: Platform.OS === 'ios' ? 0 : - 24}}
+        leftComponent={
+        <Image
+          style={{width: 35, height: 35}}
+          source={require('./images/lighthouse.png')}
+        />}
+        centerComponent={{text: 'The Lighthouse', style: {color: '#fff', fontSize: 20}}}
+      />
     </View>
     )
   }

@@ -25,7 +25,7 @@ class Section extends React.Component {
     if (item.type == "Number") return (<SectionNumber item={item} type={this.props.type}/>)
     else if (item.type == "Boolean") return (<SectionBoolean item={item} type={this.props.type}/>)
     else if (item.type == "SelectHeader") return (<SectionSelectButton item={item} type={this.props.type}/>)
-    else if (item.type == "Select") return (<SectionSelect item={item} type={this.props.type}/>)
+    else if (item.type == "Select") return (<SectionSelect item={item} type={this.props.type} parametersCallback={this.props.parametersCallback}/>)
     return (<Text>Missing Component Type!! Yes, this is an error</Text>)
   }
 
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
 
 Section.propTypes = {
   item: PropTypes.object.isRequired,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
+  parametersCallback: PropTypes.func
 }
 export default Section
