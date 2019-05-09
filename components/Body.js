@@ -88,7 +88,6 @@ class Body extends React.Component {
     }
     else {
       // both datasets are 'supposedly' loaded
-      console.log(this.state.dataGeneral.concat(this.state.dataParameters))
       return (
         <View style={{flex: 1}}>
         <FlatList

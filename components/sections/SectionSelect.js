@@ -17,7 +17,6 @@ class SectionSelect extends React.Component {
     newIndex = parseInt(index)
     let body = { name: this.props.item.name, value: newIndex }
     if (typeof this.props.parametersCallback === "function") {
-      console.log(this.props.item.name)
       if (this.props.item.name === "pattern") {
         this.props.parametersCallback()
       }
