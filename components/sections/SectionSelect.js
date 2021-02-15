@@ -1,64 +1,41 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet, Picker } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 import PropTypes from 'prop-types'
-import Axios from 'axios'
-//?import * from './sections'
+import axios from 'axios'
 
-class SectionSelect extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      currentValue: props.item.value
+export default function SectionSelect({room, item, type, parametersCallback}) {
+  let [currentValue, setCurrentValue] = useState(item.value)
+
+  const changeValue = index => {
+    let body = { name: item.name, value: parseInt(index) }
+    if (item.name === "pattern") {
+      parametersCallback && parametersCallback()
     }
-    this.changeValue = this.changeValue.bind(this)
-  }
-  
-  changeValue (index) {
-    newIndex = parseInt(index)
-    let body = { name: this.props.item.name, value: newIndex }
-    if (typeof this.props.parametersCallback === "function") {
-      if (this.props.item.name === "pattern") {
-        this.props.parametersCallback()
-      }
-      
-    }
-    Axios.post("http://" + global.ip + "/form" + this.props.type + "Value?name=" + body.name + "&value=" + body.value, body)
-      .then((response) => {
-        this.setState({currentValue: newIndex})
+    axios.post("http://" + room.ip + "/form" + type + "Value?name=" + body.name + "&value=" + body.value, body)
+      .then(() => {
+        setCurrentValue(body.value)
       })
       .catch((err) => {
         console.log("Select post failed: " + err)
       })
   }
 
-  generatePickerItems () {
-    return this.props.item.options.map(
-      (name, index) => {
-        return <Picker.Item label={name} value={index} key={index}/>
-      }
-    )
-  }
-
-  render () {
-    let color = [global.colors.secondary, global.colors.primary]
-    if (this.state.currentValue) {
-      color = [global.colors.primary, global.colors.secondary]
-    }
-    const { selectedIndex } = this.state
-    return (
-      <Picker style={styles.container}
-        selectedValue={this.state.currentValue}
-        style={{width: 200}}
-        onValueChange={(itemValue) => {
-          this.changeValue(itemValue)
-        }}>
-        {this.generatePickerItems()}
-      </Picker>
-    )
-  }
+  return (
+    <Picker //style={styles.container}
+      selectedValue={currentValue}
+      style={{width: 200}}
+      onValueChange={changeValue}
+    >
+      {item.options.map((name, index) => (
+        <Picker.Item label={name} value={index} key={index}/>
+      ))}
+    </Picker>
+  )
 }
 
 SectionSelect.propTypes = {
+  room: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
   parametersCallback: PropTypes.func
@@ -70,5 +47,3 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   }
 });
-
-export default SectionSelect

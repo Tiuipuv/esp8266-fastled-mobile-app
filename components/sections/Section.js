@@ -1,16 +1,13 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import Axios from 'axios'
 import SectionBoolean from './SectionBoolean'
 import SectionNumber from './SectionNumber'
 import SectionDiv from './SectionDiv'
 import SectionSelectButton from './SectionSelectButton'
 import SectionSelect from './SectionSelect'
-class Section extends React.Component {
-  constructor(props){
-    super(props);
-  }
+
+export default function Section({ item, room, type, parametersCallback }) {
 
   /* FROM Arduino:
   const String NumberFieldType = "Number";
@@ -21,28 +18,53 @@ class Section extends React.Component {
   const String ColorFieldType = "Color";
   const String SectionFieldType = "Section";
   */
-  componentType(item) {
-    if (item.type == "Number") return (<SectionNumber item={item} type={this.props.type}/>)
-    else if (item.type == "Boolean") return (<SectionBoolean item={item} type={this.props.type}/>)
-    else if (item.type == "SelectHeader") return (<SectionSelectButton item={item} type={this.props.type}/>)
-    else if (item.type == "Select") return (<SectionSelect item={item} type={this.props.type} parametersCallback={this.props.parametersCallback}/>)
-    return (<Text>Missing Component Type!! Yes, this is an error</Text>)
+  const componentType = () => {
+    if (item.type == "Number") return (
+      <SectionNumber
+        room={room}
+        item={item}
+        type={type}
+      />
+    )
+    else if (item.type == "Boolean") return (
+      <SectionBoolean
+        room={room}
+        item={item}
+        type={type}
+      />
+    )
+    else if (item.type == "SelectHeader") return (
+      <SectionSelectButton
+        room={room}
+        item={item}
+        type={type}
+      />
+    )
+    else if (item.type == "Select") return (
+      <SectionSelect
+        room={room}
+        item={item}
+        type={type}
+        parametersCallback={parametersCallback}
+      />
+    )
+    return (
+      <Text>Missing Component Type!! Yes, this is an error</Text>
+    )
   }
 
-  render () {
-    if (this.props.item.type == "Section") {
-      return (
-        <SectionDiv item={this.props.item}/>
-      )
-    }
-    else {
-      return(
-        <View style={styles.sectionContainer}>
-          <Text>{this.props.item.label}</Text>
-          {this.componentType(this.props.item)}
-        </View>
-      )
-    }
+  if (item.type == "Section") {
+    return (
+      <SectionDiv item={item} />
+    )
+  }
+  else {
+    return (
+      <View style={styles.sectionContainer}>
+        <Text>{item.label}</Text>
+        {componentType()}
+      </View>
+    )
   }
 }
 
@@ -59,4 +81,3 @@ Section.propTypes = {
   type: PropTypes.string.isRequired,
   parametersCallback: PropTypes.func
 }
-export default Section

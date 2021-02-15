@@ -1,29 +1,26 @@
 {
-  "name": "esp8266-fastled-mobile-app",
-  "version": "0.0.1",
-  "private": true,
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "react-native start",
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "test": "jest"
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject"
   },
   "dependencies": {
-    "axios": "^0.18.0",
-    "react": "16.8.3",
-    "react-native": "0.59.5",
-    "react-native-elements": "^1.1.0",
-    "react-native-vector-icons": "^6.4.2"
+    "@react-native-community/slider": "^3.0.3",
+    "@react-native-picker/picker": "^1.9.11",
+    "axios": "^0.21.1",
+    "expo": "~40.0.0",
+    "expo-status-bar": "~1.0.3",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
+    "react-native-elements": "^3.2.0",
+    "react-native-web": "~0.13.12"
   },
   "devDependencies": {
-    "@babel/core": "7.4.3",
-    "@babel/runtime": "7.4.3",
-    "babel-jest": "24.7.1",
-    "jest": "24.7.1",
-    "metro-react-native-babel-preset": "0.53.1",
-    "react-test-renderer": "16.8.3"
+    "@babel/core": "~7.9.0"
   },
-  "jest": {
-    "preset": "react-native"
-  }
+  "private": true
 }

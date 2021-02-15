@@ -1,52 +1,44 @@
-import React from 'react';
-import {View, Text, StyleSheet, Slider} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import Slider from '@react-native-community/slider';
 import PropTypes from 'prop-types'
-import Axios from 'axios'
-//?import * from './sections'
+import axios from 'axios'
 
-class SectionNumber extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentValue: this.props.item.value,
-    };
+export default function SectionNumber({room, item, type}) {
+  let [currentValue, setCurrentValue] = useState(item.value)
+
+  const change = (val) => {
+    setCurrentValue(parseInt(val))
   }
 
-  change(val) {
-    this.setState({
-        currentValue: parseInt(val)
-    })
-  }
-  changeSend(val) {
+  const changeSend = (val) => {
     newVal = parseInt(val)
-    let body = { name: this.props.item.name, value: newVal };
-    Axios.post("http://" + global.ip + "/form" + this.props.type + "Value?name=" + body.name + "&value=" + body.value, body)
-      .then((response) => {
-        this.setState({currentValue: newVal})
+    let body = { name: item.name, value: newVal };
+    axios.post("http://" + room.ip + "/form" + type + "Value?name=" + body.name + "&value=" + body.value, body)
+      .then(() => {
+        setCurrentValue(newVal)
       })
       .catch((err) => {
         console.log("Number post failed: " + err)
       })
   }
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.text}>{String(this.state.currentValue)}</Text>
-        <Slider
-          step={1}
-          minimumValue={this.props.item.min}
-          maximumValue={this.props.item.max}
-          minimumTrackTintColor={'#007BFF'}
-          maximumTrackTintColor={'#007BFF'}
-          thumbTintColor={'#007BFF'}
-          onValueChange={this.change.bind(this)}
-          onSlidingComplete={this.changeSend.bind(this)}
-          value={this.props.item.value}
-        />
-      </View>
-    );
-  }
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>{currentValue}</Text>
+      <Slider
+        step={1}
+        minimumValue={item.min}
+        maximumValue={item.max}
+        minimumTrackTintColor={'#007BFF'}
+        maximumTrackTintColor={'#007BFF'}
+        thumbTintColor={'#007BFF'}
+        onValueChange={change}
+        onSlidingComplete={changeSend}
+        value={item.value}
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -59,8 +51,9 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
 });
+
 SectionNumber.propTypes = {
+  room: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired
 }
-export default SectionNumber
