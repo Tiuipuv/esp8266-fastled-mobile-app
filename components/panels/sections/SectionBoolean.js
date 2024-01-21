@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import { colors } from '../styles/globalStyles';
+import { colors } from '../../styles/globalStyles';
 
 export default function SectionBoolean ({room, item, type}) {
   let [currentValue, setCurrentValue] = useState(item.value);

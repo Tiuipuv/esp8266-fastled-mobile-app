@@ -3,10 +3,9 @@ import { FlatList, ScrollView, View, ActivityIndicator, StyleSheet, Text } from 
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import Section from './sections/Section'
-import { colors } from 'react-native-elements';
-import rooms from '../rooms.json'
+import { lightColors } from '@rneui/themed';
 
-export default function Body({ roomId }) {
+export default function Room({ room }) {
   let [dataGeneral, setDataGeneral] = useState([])
   let [dataParameters, setDataParameters] = useState([])
   let [generalError, setGeneralError] = useState(false)
@@ -15,11 +14,13 @@ export default function Body({ roomId }) {
   let [loadingParameters, setLoadingParameters] = useState(true)
 
   useEffect(() => {
-    console.log(`body mounted: using http://${rooms[roomId].ip}/`)
+    if (!room)
+      return;
+    console.log(`body mounted: using http://${room.ip}/`)
     setDataGeneral([])
     setLoadingGeneral(true)
     setGeneralError(false)
-    axios.get(`http://${rooms[roomId].ip}/all`)
+    axios.get(`http://${room.ip}/all`)
       .then((response) => {
         let modifiedData = [];
         response.data.forEach(element => {
@@ -34,13 +35,13 @@ export default function Body({ roomId }) {
         setGeneralError(true)
       })
     refreshParameters()
-  }, [roomId])
+  }, [room])
 
   const refreshParameters = () => {
     setDataParameters([])
     setLoadingParameters(true)
     setParametersError(false)
-    axios.get(`http://${rooms[roomId].ip}/parameters`)
+    axios.get(`http://${room.ip}/parameters`)
       .then((response) => {
         let modifiedData = [];
         response.data.forEach(element => {
@@ -60,7 +61,7 @@ export default function Body({ roomId }) {
     //general is not loaded, who cares about params...
     return (
       <View style={{ flex: 1, padding: 20 }}>
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator size="large" color={lightColors.primary} />
       </View>
     )
   }
@@ -68,7 +69,7 @@ export default function Body({ roomId }) {
     //general attemped and failed loading
     return (
       <View style={{ flex: 1, padding: 20 }}>
-        <Text>Failed to load '{rooms[roomId].name}' at ip '{rooms[roomId].ip}'. Are the LED's turned on?</Text>
+        <Text>Failed to load '{room.name}' at ip '{room.ip}'. Are the LED's turned on?</Text>
       </View>
     )
   }
@@ -81,12 +82,12 @@ export default function Body({ roomId }) {
           renderItem={({ item }) => (
             <View>
               <View style={styles.lineStyle} />
-              <Section item={item} type={item.section} room={rooms[roomId]} />
+              <Section item={item} type={item.section} room={room} />
             </View>
           )}
           keyExtractor={item => item.name}
         />
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator size="large" color={lightColors.primary} />
       </View>
     )
   }
@@ -98,13 +99,13 @@ export default function Body({ roomId }) {
           renderItem={({ item }) => (
             <View>
               <View style={styles.lineStyle} />
-              <Section item={item} type={item.section} room={rooms[roomId]} />
+              <Section item={item} type={item.section} room={room} />
             </View>
           )}
           keyExtractor={item => item.name}
         />
         <View style={{ flex: 1, padding: 20 }}>
-          <Text>Failed to load parameters for '{rooms[roomId].name}' at ip '{rooms[roomId].ip}'. Are the LED's turned on?</Text>
+          <Text>Failed to load parameters for '{room.name}' at ip '{room.ip}'. Are the LED's turned on?</Text>
         </View>
       </View>
     )
@@ -118,7 +119,7 @@ export default function Body({ roomId }) {
           renderItem={({ item }) => (
             <View>
               <View style={styles.lineStyle} />
-              <Section item={item} type={item.section} room={rooms[roomId]} parametersCallback={refreshParameters} />
+              <Section item={item} type={item.section} room={room} parametersCallback={refreshParameters} />
             </View>
           )}
           keyExtractor={item => item.name}
@@ -135,6 +136,6 @@ const styles = StyleSheet.create({
   }
 })
 
-Body.propTypes = {
-  roomId: PropTypes.number.isRequired
+Room.propTypes = {
+  room: PropTypes.object.isRequired
 }
