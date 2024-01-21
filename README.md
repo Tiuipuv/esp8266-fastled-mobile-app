@@ -3,6 +3,8 @@ A react native app, originally built for CS 404 classwork.
 This app is a replacement for the web front end of [my other repo](https://github.com/Tiuipuv/esp8266-fastled-dedicated-webserver).
 
 
+<img src="docs/screenshot.png" width="400">
+
 ## Running locally
 The following scripts are available and scaffolded out by expo:
  * `npm start`: run the expo server, making the app available in development mode (generic)
