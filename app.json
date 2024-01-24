@@ -2,7 +2,7 @@
   "expo": {
     "name": "TheLighthouse2",
     "slug": "TheLighthouse2",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,10 +22,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#007BFF"
-      }
+      },
+      "package": "com.timebendinggames.thelighthouse"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7e4bdbe3-df3d-4fb5-9bc0-9d2dc39c5ce9"
+      }
     }
   }
 }
