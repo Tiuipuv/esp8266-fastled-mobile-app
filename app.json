@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "TheLighthouse2",
-    "slug": "TheLighthouse2",
-    "version": "1.0.1",
+    "name": "TheLighthouse",
+    "slug": "thelighthouse",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -30,7 +30,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "7e4bdbe3-df3d-4fb5-9bc0-9d2dc39c5ce9"
+        "projectId": "1ffa8792-346a-430e-9750-d7e4e50b91af"
       }
     }
   }

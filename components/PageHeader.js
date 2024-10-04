@@ -1,6 +1,6 @@
 import { Header } from '@rneui/themed';
 import React, { useState } from 'react';
-import { View, Image, Text, Platform } from 'react-native';
+import { Image, Text, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import icon from './images/lighthouse.png';
 import { globalStyles, colors } from './styles/globalStyles';
@@ -19,32 +19,30 @@ export default function PageHeader({ panel, rooms, changeValueCBFN, panelCBFN })
   }
 
   return (
-    <View>
-      <Header backgroundColor={colors.secondary}
-        containerStyle={{ marginTop: Platform.OS === 'ios' ? 0 : 24 }}
-        leftComponent={
-          <Image
-            style={{ width: 30, height: 30 }}
-            source={icon}
-          />}
-        centerComponent={panel === 'room' ?
-          (
-            <>
-              <Text style={globalStyles.mainFont}>{panelMap[panel]}</Text>
-              <Picker
-                selectedValue={roomID}
-                style={{ width: 380, color: '#fff', paddingTop: 0 }}
-                dropdownIconColor='#ffffff'
-                onValueChange={changed}
-              >
-                {rooms.map((room, index) => (
-                  <Picker.Item label={room.name} value={index} key={index} />
-                ))}
-              </Picker>
-            </>) : <Text style={globalStyles.mainFont}>{panelMap[panel]}</Text>}
-        rightComponent={renderSettings(panel, panelCBFN)}
-      />
-    </View>
+    <Header backgroundColor={colors.secondary}
+      containerStyle={{ marginTop: Platform.OS === 'ios' ? 0 : 24 }}
+      leftComponent={
+        <Image
+          style={{ width: 30, height: 30 }}
+          source={icon}
+        />}
+      centerComponent={panel === 'room' ?
+        (
+          <>
+            <Text style={globalStyles.mainFont}>{panelMap[panel]}</Text>
+            <Picker
+              selectedValue={roomID}
+              style={{ width: 380, color: '#fff', paddingTop: 0 }}
+              dropdownIconColor='#ffffff'
+              onValueChange={changed}
+            >
+              {rooms.map((room, index) => (
+                <Picker.Item label={room.name} value={index} key={index} />
+              ))}
+            </Picker>
+          </>) : <Text style={globalStyles.mainFont}>{panelMap[panel]}</Text>}
+      rightComponent={renderSettings(panel, panelCBFN)}
+    />
   )
 }
 

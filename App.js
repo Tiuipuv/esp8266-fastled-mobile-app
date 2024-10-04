@@ -5,6 +5,7 @@ import Settings from './components/panels/Settings.js';
 import PageHeader from './components/PageHeader.js'
 import { colors } from './components/styles/globalStyles'
 import { getRooms, setRooms } from './storage/settings';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function App() {
   let [roomId, setRoomId] = useState(0);
@@ -19,11 +20,11 @@ export default function App() {
   }, [rooms]);
 
   return (
-    <View style={{flex: 1}}>
-      <StatusBar backgroundColor={colors.secondary} barStyle="light-content" />
+    <SafeAreaProvider>
+      {/* <StatusBar backgroundColor={colors.secondary} barStyle="light-content" /> */}
       <PageHeader panel={panel} rooms={rooms} panelCBFN={val=> setPanel(val)} changeValueCBFN={val => {setRoomId(val)}}/>
       {giveBody(panel, rooms, roomId, (rooms) => setRooms(rooms), (panel) => setPanel(panel))}
-    </View>
+    </SafeAreaProvider>
   );
 }
 
