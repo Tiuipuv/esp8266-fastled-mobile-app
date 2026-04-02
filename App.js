@@ -4,7 +4,7 @@ import Room from './components/panels/Room.js'
 import Settings from './components/panels/Settings.js';
 import PageHeader from './components/PageHeader.js'
 import { colors } from './components/styles/globalStyles'
-import { getRooms, setRooms } from './storage/settings';
+import { getRooms, saveRooms } from './storage/settings';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function App() {
@@ -14,41 +14,30 @@ export default function App() {
   useEffect(() => {
     getRooms().then(rooms => setRooms(rooms))
   }, []);
-  useEffect(() => {
-    console.log('rooms changed')
-    setPanel('room');
-  }, [rooms]);
+
+  function giveBody(panel, rooms, roomId)
+  {
+    async function saveAndClose(rooms)
+    {
+      if (rooms) {
+        await saveRooms(rooms)
+        setRooms(rooms)
+      }
+      setPanel('room')
+    }
+    if (rooms.length > 0 && panel === 'room')
+      return <Room style={{flex: 1}} room={rooms[roomId]}/>
+    else if (panel === 'settings')
+      return <Settings rooms={rooms} doneCBFN={saveAndClose}/>
+    else
+      return null
+  }
 
   return (
     <SafeAreaProvider>
-      {/* <StatusBar backgroundColor={colors.secondary} barStyle="light-content" /> */}
+      <StatusBar backgroundColor={colors.secondary} barStyle="light-content" />
       <PageHeader panel={panel} rooms={rooms} panelCBFN={val=> setPanel(val)} changeValueCBFN={val => {setRoomId(val)}}/>
-      {giveBody(panel, rooms, roomId, (rooms) => setRooms(rooms), (panel) => setPanel(panel))}
+      {giveBody(panel, rooms, roomId)}
     </SafeAreaProvider>
   );
 }
-
-function giveBody(panel, rooms, roomId, roomsChangeCBFN, panelChangeCBFN)
-{
-  function saveRooms(rooms)
-  {
-    if (rooms)
-      setRooms(rooms).then(() => roomsChangeCBFN(rooms))
-    else
-      panelChangeCBFN('room')
-  }
-  if (rooms.length > 0 && panel === 'room')
-  {
-    return <Room style={{flex: 1}} room={rooms[roomId]}/>
-  }
-  else if (panel === 'settings')
-    return <Settings rooms={rooms} doneCBFN={saveRooms}/>
-  else
-    return null
-}
-
-const styles = StyleSheet.create({
-  rooms: {
-    backgroundColor: '#F5FCFF',
-  },
-});

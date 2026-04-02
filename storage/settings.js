@@ -4,17 +4,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 export async function getRooms() {
   try {
     const rooms = await AsyncStorage.getItem('rooms');
+    let roomsFinal = staticRooms;
     if (rooms)
-      return JSON.parse(rooms);
-    else
-    {
-      return staticRooms;
-    }
+      roomsFinal = JSON.parse(rooms);
+    roomsFinal.sort((a, b) => a.name.localeCompare(b.name));
+
+    return roomsFinal;
   }
   catch(e) {return []}
 }
 
-export async function setRooms(rooms)
+export async function saveRooms(rooms)
 {
   try 
   {
