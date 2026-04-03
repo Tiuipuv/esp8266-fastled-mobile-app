@@ -6,7 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "jsEngine": "hermes",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -32,6 +31,18 @@
       "eas": {
         "projectId": "1ffa8792-346a-430e-9750-d7e4e50b91af"
       }
-    }
+    },
+    
+    "plugins": [
+      "expo-system-ui",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ]
   }
 }
