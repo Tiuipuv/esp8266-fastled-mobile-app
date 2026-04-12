@@ -17,7 +17,7 @@
     "@react-native-vector-icons/material-icons": "^13.0.0",
     "@rneui/base": "^5.0.0",
     "@rneui/themed": "^5.0.0",
-    "axios": "^1.14.0",
+    "axios": "^1.15.0",
     "babel-preset-expo": "~55.0.8",
     "expo": "^55.0.9",
     "expo-build-properties": "~55.0.11",
