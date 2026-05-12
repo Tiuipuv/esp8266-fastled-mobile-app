@@ -6,6 +6,10 @@ import PageHeader from './components/PageHeader.js'
 import { colors } from './components/styles/globalStyles'
 import { getRooms, saveRooms } from './storage/settings';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import axios from 'axios';
+
+// Set global timeout to 3 seconds
+axios.defaults.timeout = 3000; 
 
 export default function App() {
   let [roomId, setRoomId] = useState(0);
